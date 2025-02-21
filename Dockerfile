@@ -1,0 +1,13 @@
+FROM alpine:latest
+
+COPY greetings.sh .
+
+RUN chmod +x /greetings.sh
+
+CMD ./greetings.sh
+
+# Step to run
+# 1. docker build -t greetingshell:v1 .
+# 2. docker run greetingshell:v1
+# Result will be hello 
+# Your $name will be null 
