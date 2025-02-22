@@ -12,8 +12,8 @@ LABEL authors="ttknp"
 RUN chown -R mysql:root /var/lib/mysql/
 
 # We can access ENV values during the build, as well as once the container runs
-# Dockerfile doesn’t provide a dynamic tool to set an ENV value during the build process.
-# We have to use ARG To Hold --build-arg when we pass on build image Dockerfile
+# Dockerfile_v.1 doesn’t provide a dynamic tool to set an ENV value during the build process.
+# We have to use ARG To Hold --build-arg when we pass on build image Dockerfile_v.1
 
 # Sign = doesn't need
 
@@ -33,9 +33,9 @@ EXPOSE 3306
 
 
 # Step to run
-# ** -t <tag name : version> and -f <path to Dockerfile>
+# ** -t <tag name : version> and -f <path to Dockerfile_v.1>
 # **  --build-arg <Key>=<Value>
-# 1. docker build -t mysql:latest --build-arg USERNAME=ttknp --build-arg PASSWORD=12345 --build-arg DATABASE=to_do_apps_docker .  -f dockerfiles\database\Dockerfile
+# 1. docker build -t mysql:latest --build-arg USERNAME=ttknp --build-arg PASSWORD=12345 --build-arg DATABASE=to_do_apps_docker .  -f dockerfiles\database\Dockerfile_v.1
 # ** -p 8080:80 maps port 8080 on the host machine to port 80 inside the container.
 # ** -d run on background , --name=<container name> , -p <port remote to container>:<port app on container>
 # ** these are run image and run mysql ? for sure! ** for the fist time

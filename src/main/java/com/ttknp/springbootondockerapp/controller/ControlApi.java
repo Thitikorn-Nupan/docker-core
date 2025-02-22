@@ -48,28 +48,31 @@ public class ControlApi {
                 .body(null);
     }
 
-    /*
     @PostMapping(value = "/romance/create")
     private ResponseEntity<Romance> createRomance(@RequestBody Romance romance) {
         log.info("requested localhost:8080/ttknp/romance/create");
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(romanceBooksService.create(romance));
+                .header("Data","romance creates "+!romanceBooksService.create(romance).getRid().isEmpty())
+                .body(null);
     }
 
     @PutMapping(value = "/romance/update/{rid}")
     private ResponseEntity<Romance> createRomance(@RequestBody Romance romance , @PathVariable String rid) {
         log.info("requested localhost:8080/ttknp/romance/update/{rid}");
         return ResponseEntity.status(HttpStatus.OK)
-                .body(romanceBooksService.update(romance,rid));
+                .header("Data","romance updates "+!romanceBooksService.update(romance,rid).getRid().isEmpty())
+                .body(null);
     }
+
 
     @DeleteMapping(value = "/romance/delete/{rid}")
     private ResponseEntity<Map<String,Romance>> deleteRomance(@PathVariable String rid) {
         log.info("requested localhost:8080/ttknp/romance/delete/{rid}");
         return ResponseEntity.status(HttpStatus.ACCEPTED)
-                .body(romanceBooksService.delete(rid));
+                .header("Data","romance deletes "+!romanceBooksService.delete(rid).isEmpty())
+                .body(null);
     }
-    */
+
 
 
 

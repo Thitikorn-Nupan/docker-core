@@ -1,6 +1,5 @@
-CREATE DATABASE to_do_apps_docker;
-USE to_do_apps_docker;
-
+-- CREATE DATABASE to_do_apps_docker;
+-- USE to_do_apps_docker;
 CREATE TABLE romances (
                           rid VARCHAR(3),
                           title VARCHAR(60),
