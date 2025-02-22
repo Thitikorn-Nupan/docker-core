@@ -8,31 +8,16 @@ FROM openjdk:17
 LABEL authors="ttknp"
 
 ### (Set folder on container) specific space to persist some data in your container.
-# VOLUME /tmp
-### OR you can use basic config
-# you can use WORKDIR /app
 WORKDIR /app
 
-# how to build .jar on project spring boot (Generate a .jar file)
-# First way you just use command "mvn install" or "mvn clean package"
-# When the process is finished, go to the target folder from your project and see the next spring-boot-docker.jar file.
-##** ENV for define varaibles
-# Hardcoding Environment Values
-ENV JAR_FILE target/basic-api.jar
-
-## Add the application's JAR file to the container
-##** copies new files, directories or remote file URLs from the source and adds them to the filesystem of the image at the provided path.
-##** In this case we add the Spring Boot application to the Docker image from the source path (the JAR_FILE variable) ** to a destination named application.jar.
-ADD $JAR_FILE /app/application.jar
-
+# Copy the current directory contents into the container at /app
+COPY /target/basic-api.jar /app
 
 ## Make port 8080 available to the world outside container
 EXPOSE 8080
 
-# for running spring boot in container
-# Like you run application on your current path
-# java -jar target/basic-api-in-docker-container.jar
-ENTRYPOINT ["java","-jar","/app/application.jar"]
+# Run java -jar /app/basic-api.jar when the container launches
+CMD ["java","-jar","/app/basic-api.jar"]
 
 # Step to run
 # ** -t <tag name : version> and -f <path to Dockerfile_v.1>
