@@ -1,5 +1,5 @@
 ##
-## Basic way
+## Basic way *** Build database service without Dockerfile
 ##
 ## One docker compose have 2 service
 ## backend (Spring Boot) and database (MySQL database image)
@@ -27,20 +27,40 @@ services:
       - springboot-mysql-net
 
 
-#  backend:
-#    container_name: springboot
-#    build: .
-#    image: springboot
-#    ports:
-#      - '${SPRINGBOOT_EXPOSED_PORT}:8080'
-      # depends_on: dependency order, mysqldb is started before backend ?
-      # - database
-#    links: # to link containers over a network. When we link containers, Docker creates environment variables and adds containers to the known hosts list
+  backend:
+    container_name: springboot_app
+    # build: . # if it's same path
+    build:
+      #  *** Importance before. build image
+      #  ../ mean you'll complies on dockercomponses folder
+      #  ../.. mean you'll complies on spring-boot-on-docker-app-docker-componse folder
+      #  That's way you got error target/*.jar not found
+      #  ** Because you forget to set context path !!
+      #  relative to spring-boot-on-docker-app-docker-componse command running directory (../..) means this folder
+      context: ../..
+      dockerfile: dockerfiles/app/Dockerfile
+
+    image: springboot:latest
+    # Note. when do this config
+    # this environment key didn't want too
+    # it'll complies the same .jar you provide
+    # environment:
+    #    - spring.datasource.url=jdbc:mysql://<service name>:3306/<database name>allowPublicKeyRetrieval=true
+
+#    depends_on:
+    ## depends_on is a Docker Compose keyword to set the order in which services must start and stop.
+    ## there are limitations because depends_on doesn’t explicitly wait for dependencies to be ready.
 #      - database
+    ports:
+      - '8000:8080'
+    links:
+     ## links instructs Docker to link containers over a network. When we link containers, Docker creates environment variables and adds containers to the known hosts list so they can discover each other.
+     ## However, Docker Compose deprecates it since version 2 because of the introduction of the network.
+      - database
+    networks:
+      - springboot-mysql-net
 #    environment: # environmental variables that Spring Boot application uses
 #      - spring.datasource.url=jdbc:mysql://$PMA_HOST_DATABASE:3306/$SQLD_DATABASE?allowPublicKeyRetrieval=true
-#    networks:
-#      - springboot-mysql-net
 #    stdin_open: true # stdin_open and tty: keep open the terminal after building container
 #    tty: true
 
