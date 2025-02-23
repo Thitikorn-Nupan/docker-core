@@ -8,28 +8,29 @@ FROM openjdk:17
 LABEL authors="ttknp"
 
 ### (Set folder on container) specific space to persist some data in your container.
-# VOLUME /tmp
-### OR you can use basic config
-# you can use WORKDIR /app
 WORKDIR /app
 
-
-ARG JAR_FILE=target/basic-api.jar
-
-## Add the application's JAR file to the container
-##** copies new files, directories or remote file URLs from the source and adds them to the filesystem of the image at the provided path.
-##** In this case we add the Spring Boot application to the Docker image from the source path (the JAR_FILE variable) to a destination named application.jar.
-ADD ${JAR_FILE} /app/application.jar
-
-# for running spring boot in container
-# Like you run application on your current path
-# java -jar target/basic-api-in-docker-container.jar
+# Copy the current directory contents into the container at /app
+COPY /target/basic-api.jar /app
 
 ## Make port 8080 available to the world outside container
 EXPOSE 8080
 
+# Run java -jar /app/basic-api.jar when the container launches
+CMD ["java","-jar","/app/basic-api.jar"]
 
-ENTRYPOINT ["java","-jar","/app/application.jar"]
+# Step to run
+# ** -t <tag name : version> and -f <path to Dockerfile_v.1>
+# **  --build-arg <Key>=<Value>
+# 1. docker build -t springboot:latest .  -f dockerfiles\app\Dockerfile
+# ** -p 8080:80 maps port 8080 on the host machine to port 80 inside the container.
+# ** -d run on background , --name=<container name> , -p <port remote to container>:<port app on container>
+# ** these are run image and run mysql ? for sure! ** for the fist time
+# 2. docker run --name springboot_app -p 8000:8080 -d springboot:latest
+# way to access container
+# 3. docker exec -it <container id> sh
+# ** now you can use command as linux note this case mysql is on /var/lib/mysql/
+# 3.1 exit ** for leaving container
 
 
 

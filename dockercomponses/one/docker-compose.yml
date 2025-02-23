@@ -50,8 +50,6 @@ services:
       - database
     ports:
       - '8000:8080'
-#    links: # to link containers over a network. When we link containers, Docker creates environment variables and adds containers to the known hosts list
-#      - database
     networks:
       - springboot-mysql-net
 
