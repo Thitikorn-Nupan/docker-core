@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>3.4.2</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>com.ttknp</groupId>
+	<artifactId>spring-boot-on-docker-app</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>spring-boot-on-docker-app</name>
+	<description>spring-boot-on-docker-app</description>
+	<url/>
+	<!-- These all tags work as description -->
+	<licenses>
+		<!-- write own licence -->
+		<license>
+			<name>Thitikorn nupan</name>
+			<url>http://www.thitikorn-nupan.com/portfolio</url>
+		</license>
+	</licenses>
+	<organization>
+		<name>Spring Boot Rest Api</name>
+	</organization>
+	<developers>
+		<developer>
+			<name>Thitikorn nupan</name>
+			<organization>Spring Boot Rest Api run on Docker</organization>
+		</developer>
+	</developers>
+	<!-- These all tags work as description -->
+	<scm>
+		<connection/>
+		<developerConnection/>
+		<tag/>
+		<url/>
+	</scm>
+	<properties>
+		<java.version>17</java.version>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.mysql</groupId>
+			<artifactId>mysql-connector-j</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<!--
+			 can change name .jar file just add tag finalName then specify name .jar whatever you want
+			 Remember. java -jar <your jar file> (It uses to run Stand-Alone Packaged Application)
+			 ********* mvn spring-boot:run have to use dependency spring-boot-starter-web Always
+			 ********* (for building when code update)mvn clean package spring-boot:repackage
+		-->
+		<finalName>basic-api</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<!-- Not work
+					<excludes>
+						<exclude>src/main/resources/info/configs.properties</exclude>
+					</excludes>-->
+					<annotationProcessorPaths>
+						<path>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+							<!-- fix ide bug use with lombok -->
+							<version>${lombok.version}</version>
+						</path>
+					</annotationProcessorPaths>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<excludes>
+						<exclude>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+						</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
