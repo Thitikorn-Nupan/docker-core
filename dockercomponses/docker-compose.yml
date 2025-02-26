@@ -1,0 +1,33 @@
+##
+## Basic way *** Build with Dockerfile
+##
+version: '3'
+services:
+  backend:
+    container_name: node_app
+    build:
+      context: ../ # relative to docker-compose command running directory (.) means this folder
+      dockerfile: dockerfiles/Dockerfile # specify path to Dockerfile it starts on current folder application
+    image: nodejs:latest
+    ports:
+      - '3001:3000'
+
+# Step to run
+# Build
+# 1. docker-compose up -d --build <service name>
+# And you can specify path with -f <path to docker compose>
+# 1.1 docker-compose -f dockercomponses/docker-compose.yml up -d --build <service name>
+# config env file when build image -e <path to env>
+# ***
+# 1.2 docker-compose  --env-file configs.env -f dockercomponses/one/docker-compose.yml up -d --build database
+# Run
+# 2. docker run --name angular_app -p 4201:4200 -d angualar:latest
+
+# way to access container
+# 3. docker exec -it <container id> sh
+# ** now you can use command as linux note this case mysql is on /var/lib/mysql/
+# 3.1 exit ** for leaving container
+
+# when container created
+# all service will be inside container
+# as spring-boot-on-docker-app-docker-componse (container  name) have database , app,...
