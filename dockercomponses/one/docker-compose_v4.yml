@@ -1,0 +1,100 @@
+##
+## Basic way ** Set .env file by key env_file and Docker Compose Environment Variables
+## Environment variables are a simple and effective way to pass configuration settings from your host operating system
+## Through Docker Compose in order to get to your services.
+##
+version: '3'
+
+services:
+
+  database: # service name
+    container_name: mysql_database # *** define container name
+    restart: always # *** set docker-compose.yml to always restart this container if it fails.
+    image: mysql:latest # *** same -t , -tag
+    ## --env-file flag is about (and only) substitution in compose file
+    env_file: # *** import your .env file ** have to no named ?
+      - .env
+    environment:
+      - MYSQL_DATABASE=${MYSQLD_DATABASE}
+      - MYSQL_USER=${MYSQLD_USERNAME}
+      - MYSQL_PASSWORD=${MYSQLD_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=54321 # if MYSQL_PASSWORD didn't set I can access database using root , password
+    ports:
+      - '${MYSQLD_PORT_REMOTE}:3306' # 3309 outside port to remote to inside 3306
+    volumes: # for storing value on container
+      # second way use with your volume for storing data (use volume name instead folder name)
+      - information-database:/var/lib/mysql
+    networks:  # It's Importance. Create a docker network to communicate Spring boot application and MySQL database
+      - springboot-mysql-net
+
+  backend:
+    container_name: springboot_app
+    # build: . # if it's same path
+    build:
+      #  *** Importance before. build image
+      #  ../ mean you'll complies on dockercomponses folder
+      #  ../.. mean you'll complies on spring-boot-on-docker-app-docker-componse folder
+      #  That's way you got error target/*.jar not found
+      #  ** Because you forget to set context path !!
+      #  relative to spring-boot-on-docker-app-docker-componse command running directory (../..) means this folder
+      context: ../..
+      dockerfile: dockerfiles/app/Dockerfile
+
+    image: springboot:latest
+    env_file: # *** import your env file
+      - .env
+    # Note. when do this config
+    # this environment key didn't want too
+    # it'll complies the same .jar you provide
+    environment:
+        - spring.datasource.url=jdbc:mysql://database:3309/${MYSQLD_DATABASE}?allowPublicKeyRetrieval=true
+    ports:
+      - '${SPRING_BOOT_PORT_REMOTE}:8080'
+      #    links:
+      ## links instructs Docker to link containers over a network. When we link containers, Docker creates environment variables and adds containers to the known hosts list so they can discover each other.
+      ## However, Docker Compose deprecates it since version 2 because of the introduction of the network.
+    #      - database
+    depends_on:
+      ## depends_on is a Docker Compose keyword to set the order in which services must start and stop.
+      ## there are limitations because depends_on doesn’t explicitly wait for dependencies to be ready.
+      - database
+    networks:
+      - springboot-mysql-net
+
+#    links: # to link containers over a network. When we link containers, Docker creates environment variables and adds containers to the known hosts list
+#      - database
+#    environment: # environmental variables that Spring Boot application uses
+#      - spring.datasource.url=jdbc:mysql://$PMA_HOST_DATABASE:3306/$SQLD_DATABASE?allowPublicKeyRetrieval=true
+#    networks:
+#      - springboot-mysql-net
+#    stdin_open: true # stdin_open and tty: keep open the terminal after building container
+#    tty: true
+
+
+volumes: # for storing value on container
+  information-database: # define volume name as information-database
+    driver: local # use only current pc
+
+
+networks: # It's Importance. Create a docker network to communicate Spring boot application and MySQL database
+  # Here springboot-mysql-net is the network name.
+  springboot-mysql-net:
+
+
+# Step to run
+# case you use default naming of docker compose as docker-compose.yml
+# 1. docker-compose up -d --build <service name>
+# And you can specify path with -f <path to docker compose>
+# 1.1 docker-compose -f dockercomponses/one/docker-compose.yml up -d --build <service name>
+# config env file when build image -e <path to env>
+# ***
+# 1.2 docker-compose  --env-file configs.env -f dockercomponses/one/docker-compose.yml up -d --build database
+
+# way to access container
+# 3. docker exec -it <container id> sh
+# ** now you can use command as linux note this case mysql is on /var/lib/mysql/
+# 3.1 exit ** for leaving container
+
+# when container created
+# all service will be inside container
+# as spring-boot-on-docker-app-docker-componse (container  name) have database , app,...
