@@ -1,0 +1,4 @@
+# you can generate auto by pip freeze >> requirements.txt
+# but it'll get all pip list
+Flask==3.1.0
+logging==0.4.9.6
