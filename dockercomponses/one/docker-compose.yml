@@ -1,9 +1,8 @@
 ##
-## Basic way ** Set .env file by key env_file
+## Basic way ** Set .env file by key env_file and Docker Compose Environment Variables
+## Environment variables are a simple and effective way to pass configuration settings from your host operating system
+## Through Docker Compose in order to get to your services.
 ##
-## One docker compose have 2 service
-## backend (Spring Boot) and database (MySQL database image)
-## Networks it is importance for config database in spring boot
 version: '3'
 
 services:
@@ -47,8 +46,12 @@ services:
     # Note. when do this config
     # this environment key didn't want too
     # it'll complies the same .jar you provide
-    # environment:
-    #    - spring.datasource.url=jdbc:mysql://<service name>:3306/<database name>allowPublicKeyRetrieval=true
+#    links: # to link containers over a network. When we link containers, Docker creates environment variables and adds containers to the known hosts list
+#      - database # call service db name on docker-compose main (That I extend) now I can't use service name database
+    environment:
+        ## look at port 3306 why this way don't use 3309 port expose ???
+        ## that's meaning it connects inside docker container
+        - spring.datasource.url=jdbc:mysql://database:3306/${MYSQLD_DATABASE}?allowPublicKeyRetrieval=true
     ports:
       - '${SPRING_BOOT_PORT_REMOTE}:8080'
       #    links:
@@ -62,14 +65,6 @@ services:
     networks:
       - springboot-mysql-net
 
-#    links: # to link containers over a network. When we link containers, Docker creates environment variables and adds containers to the known hosts list
-#      - database
-#    environment: # environmental variables that Spring Boot application uses
-#      - spring.datasource.url=jdbc:mysql://$PMA_HOST_DATABASE:3306/$SQLD_DATABASE?allowPublicKeyRetrieval=true
-#    networks:
-#      - springboot-mysql-net
-#    stdin_open: true # stdin_open and tty: keep open the terminal after building container
-#    tty: true
 
 
 volumes: # for storing value on container
