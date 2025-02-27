@@ -1,0 +1,37 @@
+##
+## Basic way *** Build with Dockerfile
+##
+version: '3'
+services:
+  frontend:
+    container_name: python_app
+    build:
+      # ../ meaning you stay at angular-node-js-on-docker-app/
+      # you have to keep context to be there at the same src
+      context: ../
+      dockerfile: dockerfiles/Dockerfile # specify path to Dockerfile_v1 it starts on current folder application
+    image: python:latest
+    ports:
+      - '8081:8080'
+
+
+
+# Step to run
+# Build
+# 1. docker-compose up -d --build <service name>
+# And you can specify path with -f <path to docker compose>
+# 1.1 docker-compose -f dockercomponses/docker-compose_v1.yml up -d --build <service name>
+# config env file when build image -e <path to env>
+# ***
+# 1.2 docker-compose  --env-file configs.env -f dockercomponses/one/docker-compose_v1.yml up -d --build database
+# Run
+# 2. docker run --name angular_app -p 4201:4200 -d angualar:latest
+
+# way to access container
+# 3. docker exec -it <container id> sh
+# ** now you can use command as linux note this case mysql is on /var/lib/mysql/
+# 3.1 exit ** for leaving container
+
+# when container created
+# all service will be inside container
+# as spring-boot-on-docker-app-docker-componse (container  name) have database , app,...
