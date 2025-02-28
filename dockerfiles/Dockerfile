@@ -25,7 +25,6 @@ EXPOSE 4200
 # it means that it can be accessed via all the IP addresses on all interfaces on the machine, including 127.0. 0.1
 CMD ["/usr/src/app/node_modules/.bin/ng", "serve", "--host", "0.0.0.0"]
 
-
 # Step to run
 # Build
 # 1. docker build -t angualar:latest . -f dockerfiles\Dockerfile_v1
