@@ -1,9 +1,48 @@
 ##
-## Basic way *** Build with Dockerfile
+## Basic way *** Build with Dockerfile + Create Mysql/PhpMyAdmin Service with docker-compose
 ##
 version: '3'
 services:
-  frontend:
+
+  database: # service name
+    container_name: mysql_database # *** define container name
+    restart: always # *** set docker-compose.yml to always restart this container if it fails.
+    image: mysql:latest # *** same -t , -tag
+    ## --env-file flag is about (and only) substitution in compose file
+#    env_file: # *** import your .env file ** have to no named ?
+#      - .env
+    environment:
+      - MYSQL_DATABASE=to_do_apps_docker
+      - MYSQL_USER=ttknp
+      - MYSQL_PASSWORD=12345
+      - MYSQL_ROOT_PASSWORD=54321 # if MYSQL_PASSWORD didn't set I can access database using root , password
+    ports:
+      - '3309:3306' # 3309 outside port to remote to inside 3306
+    volumes: # for storing value on container
+      # second way use with your volume for storing data (use volume name instead folder name)
+      - information-database:/var/lib/mysql
+#    networks: # It's Importance. Create a docker network to communicate Spring boot application and MySQL database
+#      - springboot-mysql-net
+  ##
+  ##
+  ##
+  phpmyadmin:
+    container_name: phpmyadmin_software
+    restart: always
+    image: phpmyadmin:latest # /phpmyadmin why ?
+    environment:
+      - PMA_HOST=database # specify which host you will give phpmyadmin managing (Service name of Database)
+      - PMA_PORT=3306 # specify port of Database (real port no port that you exposed)
+      - PMA_USER=ttknp # specify user of Database (Mysql)
+      - PMA_PASSWORD=12345 # specify password of Database (Mysql)
+    ports:
+      - "8082:80" # <Port exposed> : <Phpmyandmin Port running inside container>
+    depends_on:
+      - database
+  ##
+  ##
+  ##
+  backend:
     container_name: python_app
     build:
       # ../ meaning you stay at angular-node-js-on-docker-app/
@@ -13,8 +52,12 @@ services:
     image: python:latest
     ports:
       - '8081:8080'
-
-
+    depends_on:
+      - database
+volumes:
+  information-database:
+    # define volume name
+    driver: local # use only current pc
 
 # Step to run
 # Build

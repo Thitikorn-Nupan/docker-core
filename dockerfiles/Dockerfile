@@ -15,7 +15,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 # cmd to run
 # unable to start container process: exec: "py"
 # fix buy use "python"
-CMD ["python", "-m","controller.book_control"]
+# CMD ["python", "-m","controller.book_control"]
+CMD ["python", "-m","configuration.connect_db"]
 
 # Step to run
 # ** -t <tag name : version> and -f <path to Dockerfile_v.1>
