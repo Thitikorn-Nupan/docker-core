@@ -6,4 +6,4 @@
 - angular-app-docker-compose : apply Dockerfile / docker-compose*.yml to build frontend app on docker container
 - node-app-docker-compose : apply Dockerfile / docker-compose*.yml to build rest basic on docker container
 - python-app : apply Dockerfile to build rest basic on docker container
-- python-app-docker-compose : apply Dockerfile / docker-compose*.yml to build rest basic on docker container
+- python-app-docker-compose : apply Dockerfile / docker-compose*.yml to build rest basicand build phpmyadmin software on docker container 
