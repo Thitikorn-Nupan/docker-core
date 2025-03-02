@@ -3,7 +3,9 @@
 ##
 version: '3'
 services:
-
+  ##
+  ##
+  ##
   database: # service name
     container_name: mysql_database # *** define container name
     restart: always # *** set docker-compose.yml to always restart this container if it fails.
@@ -21,8 +23,6 @@ services:
     volumes: # for storing value on container
       # second way use with your volume for storing data (use volume name instead folder name)
       - information-database:/var/lib/mysql
-#    networks: # It's Importance. Create a docker network to communicate Spring boot application and MySQL database
-#      - springboot-mysql-net
   ##
   ##
   ##
@@ -54,6 +54,7 @@ services:
       - '8081:8080'
     depends_on:
       - database
+
 volumes:
   information-database:
     # define volume name
