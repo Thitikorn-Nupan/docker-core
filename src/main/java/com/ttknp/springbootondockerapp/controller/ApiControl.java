@@ -1,6 +1,5 @@
 package com.ttknp.springbootondockerapp.controller;
 
-
 import com.ttknp.springbootondockerapp.entity.Romance;
 import com.ttknp.springbootondockerapp.service.BooksService;
 import lombok.extern.slf4j.Slf4j;
@@ -8,18 +7,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.Map;
 
 @Slf4j
 @RestController
 @RequestMapping(value = "${base-rest-prefix}")
-public class ControlApi {
+public class ApiControl {
 
-    private BooksService<Romance> romanceBooksService;
+    private final BooksService<Romance> romanceBooksService;
 
     @Autowired
-    public ControlApi(BooksService<Romance> romanceBooksService) {
+    public ApiControl(BooksService<Romance> romanceBooksService) {
         this.romanceBooksService = romanceBooksService;
     }
 

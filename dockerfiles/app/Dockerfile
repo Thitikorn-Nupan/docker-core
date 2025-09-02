@@ -1,7 +1,6 @@
 #
 #
-# **** Dockerfile to create spring boot image ****
-# **** (Dynmic env) Passing Environment Variables Into a Dockerfile *****
+# **** Dockerfile to create spring boot image **** # **** (Dynmic env) Passing Environment Variables Into a Dockerfile *****
 #
 #
 ### Use official base image of Java Runtime (JDK version that you use)
@@ -10,8 +9,7 @@ LABEL authors="ttknp"
 
 ### (Set folder on container) specific space to persist some data in your container.
 # VOLUME /tmp
-### OR you can use basic config
-# you can use WORKDIR /app
+### OR you can use basic config # you can use WORKDIR /app
 WORKDIR /app
 
 # how to build .jar on project spring boot (Generate a .jar file)
@@ -31,7 +29,9 @@ EXPOSE 8080
 # for running spring boot in container
 # Like you run application on your current path
 # java -jar target/basic-api-in-docker-container.jar
-ENTRYPOINT ["java","-jar","/app/application.jar"]
+# this conflict why i have to use ip4 ???
+ENTRYPOINT ["java","-jar","/app/application.jar", "--spring.datasource.url=jdbc:mysql://192.168.1.103:3307/to_do_apps_docker","--spring.datasource.username=ttknp","--spring.datasource.password=12345"]
+
 
 # When you run java to some plan ** Use only jar file will be cool !
 # Step to run
