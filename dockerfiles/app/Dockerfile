@@ -17,7 +17,9 @@ COPY /target/basic-api.jar /app
 EXPOSE 8080
 
 # Run java -jar /app/basic-api.jar when the container launches
+# this conflict why i have to use ip4 ??? # , "--spring.datasource.url=jdbc:mysql://192.168.1.103:3307/to_do_apps_docker","--spring.datasource.username=ttknp","--spring.datasource.password=12345"
 CMD ["java","-jar","/app/basic-api.jar"]
+
 
 # Step to run
 # ** -t <tag name : version> and -f <path to Dockerfile_v.1>

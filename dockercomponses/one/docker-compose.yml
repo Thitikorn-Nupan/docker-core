@@ -4,13 +4,11 @@
 ## Through Docker Compose in order to get to your services.
 ##
 version: '3'
-
 services:
-
   database: # service name
     container_name: mysql_database # *** define container name
     restart: always # *** set docker-compose.yml to always restart this container if it fails.
-    image: mysql:latest # *** same -t , -tag
+    image: mysql # *** same -t , -tag
     ## --env-file flag is about (and only) substitution in compose file
     env_file: # *** import your .env file ** have to no named ?
       - .env
@@ -48,10 +46,12 @@ services:
     # it'll complies the same .jar you provide
 #    links: # to link containers over a network. When we link containers, Docker creates environment variables and adds containers to the known hosts list
 #      - database # call service db name on docker-compose main (That I extend) now I can't use service name database
-    environment:
-        ## look at port 3306 why this way don't use 3309 port expose ???
-        ## that's meaning it connects inside docker container
-        - spring.datasource.url=jdbc:mysql://database:3306/${MYSQLD_DATABASE}?allowPublicKeyRetrieval=true
+    environment: # environmental variables for instead  Spring Boot application.prop file
+        # - spring.datasource.url=jdbc:mysql://database:3306/${MYSQLD_DATABASE}?allowPublicKeyRetrieval=true Or
+        # Note !! onside container we connect by port internal not expose port
+        - spring.datasource.url=jdbc:mysql://database:3306/${MYSQLD_DATABASE}
+        - spring.datasource.username=${MYSQLD_USERNAME}
+        - spring.datasource.password=${MYSQLD_PASSWORD}
     ports:
       - '${SPRING_BOOT_PORT_REMOTE}:8080'
       #    links:

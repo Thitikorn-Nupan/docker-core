@@ -1,7 +1,7 @@
 package com.ttknp.springbootondockerapp;
 
 
-import com.ttknp.springbootondockerapp.controller.ControlApi;
+import com.ttknp.springbootondockerapp.controller.ApiControl;
 import com.ttknp.springbootondockerapp.entity.Romance;
 import com.ttknp.springbootondockerapp.service.BooksService;
 import org.junit.jupiter.api.Test;
@@ -19,8 +19,8 @@ import java.util.List;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest(controllers = ControlApi.class)
-public class ControlApiTest {
+@WebMvcTest(controllers = ApiControl.class)
+public class ApiControlTest {
 
     // *** using MockMvc class to make REST API calls.
     @Autowired

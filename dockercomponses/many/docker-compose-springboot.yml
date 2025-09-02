@@ -16,11 +16,12 @@ services:
     image: springboot:latest
     env_file: # *** import your env file
       - .env
-    # Note. when do this config
-    # this environment key didn't want too
-    # it'll complies the same .jar you provide
-    # environment:
-    #    - spring.datasource.url=jdbc:mysql://<service name>:3306/<database name>allowPublicKeyRetrieval=true
+    environment: # environmental variables for instead  Spring Boot application.prop file
+      # - spring.datasource.url=jdbc:mysql://database:3306/${MYSQLD_DATABASE}?allowPublicKeyRetrieval=true Or
+      # Note !! onside container we connect by port internal not expose port
+      - spring.datasource.url=jdbc:mysql://database:3306/${MYSQLD_DATABASE}
+      - spring.datasource.username=${MYSQLD_USERNAME}
+      - spring.datasource.password=${MYSQLD_PASSWORD}
     ports:
       - '${SPRING_BOOT_PORT_REMOTE}:8080'
       #    links:
