@@ -4,7 +4,7 @@
 #
 #
 ### Use official base image of Java Runtime (JDK version that you use)
-FROM openjdk:17
+FROM eclipse-temurin:17-jdk-alpine
 LABEL authors="ttknp"
 
 ### (Set folder on container) specific space to persist some data in your container.
@@ -30,7 +30,7 @@ EXPOSE 8080
 # Like you run application on your current path
 # java -jar target/basic-api-in-docker-container.jar
 # this conflict why i have to use ip4 ???
-ENTRYPOINT ["java","-jar","/app/application.jar", "--spring.datasource.url=jdbc:mysql://192.168.1.103:3307/to_do_apps_docker","--spring.datasource.username=ttknp","--spring.datasource.password=12345"]
+ENTRYPOINT ["java","-jar","/app/application.jar", "--spring.datasource.url=jdbc:mysql://192.168.1.39:3307/to_do_apps_docker","--spring.datasource.username=ttknp","--spring.datasource.password=12345"]
 
 
 # When you run java to some plan ** Use only jar file will be cool !

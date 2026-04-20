@@ -15,7 +15,6 @@ import java.util.List;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-
 @WebMvcTest(controllers = ApiControl.class)
 public class ApiControlTest {
 
