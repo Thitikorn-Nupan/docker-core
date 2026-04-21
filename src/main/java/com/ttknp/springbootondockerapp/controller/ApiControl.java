@@ -1,6 +1,5 @@
 package com.ttknp.springbootondockerapp.controller;
 
-
 import com.ttknp.springbootondockerapp.entity.Romance;
 import com.ttknp.springbootondockerapp.service.BooksService;
 import lombok.extern.slf4j.Slf4j;
@@ -12,7 +11,7 @@ import java.util.Map;
 
 @Slf4j
 @RestController
-@RequestMapping(value = "${base-rest-prefix}")
+@RequestMapping(value = "${base-rest-prefix}/romance")
 public class ApiControl {
 
     private final BooksService<Romance> romanceBooksService;
@@ -27,7 +26,7 @@ public class ApiControl {
         return ResponseEntity.ok("hello, Docker");
     }
 
-    @GetMapping(value = "/romance/reads")
+    @GetMapping(value = "/reads")
     private ResponseEntity<Iterable<Romance>> readsRomance() {
         log.info("requested localhost:8080/ttknp/romance/reads");
         int row = 0;
@@ -38,7 +37,7 @@ public class ApiControl {
                 .body(null);
     }
 
-    @GetMapping(value = "/romance/read/{rid}")
+    @GetMapping(value = "/read/{rid}")
     private ResponseEntity<Romance> readRomance(@PathVariable String rid) {
         log.info("requested localhost:8080/ttknp/romance/read/{rid}");
         boolean result = romanceBooksService.read(rid).getRid() != null;
@@ -47,7 +46,7 @@ public class ApiControl {
                 .body(null);
     }
 
-    @PostMapping(value = "/romance/create")
+    @PostMapping(value = "/create")
     private ResponseEntity<Romance> createRomance(@RequestBody Romance romance) {
         log.info("requested localhost:8080/ttknp/romance/create");
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -55,7 +54,7 @@ public class ApiControl {
                 .body(null);
     }
 
-    @PutMapping(value = "/romance/update/{rid}")
+    @PutMapping(value = "/update/{rid}")
     private ResponseEntity<Romance> createRomance(@RequestBody Romance romance , @PathVariable String rid) {
         log.info("requested localhost:8080/ttknp/romance/update/{rid}");
         return ResponseEntity.status(HttpStatus.OK)
@@ -64,7 +63,7 @@ public class ApiControl {
     }
 
 
-    @DeleteMapping(value = "/romance/delete/{rid}")
+    @DeleteMapping(value = "/delete/{rid}")
     private ResponseEntity<Map<String,Romance>> deleteRomance(@PathVariable String rid) {
         log.info("requested localhost:8080/ttknp/romance/delete/{rid}");
         return ResponseEntity.status(HttpStatus.ACCEPTED)

@@ -4,9 +4,7 @@
 version: '3'
 
 services:
-
   database:
-
     container_name: mysql_database # *** define container name
     restart: always # I ask docker-compose.yml to always restart this container if it fails.
     image: mysql:latest
@@ -21,9 +19,10 @@ services:
     ports:
       - '${MYSQLD_PORT_REMOTE}:3306'
     volumes: # for storing value on container
-      # second way use with your volume for storing data (use volume name instead folder name)
+      # use volume name instead folder name the name is information-database
       - information-database:/var/lib/mysql
     networks: # It's Importance. Create a docker network to communicate Spring boot application and MySQL database
+      # the name is springboot-mysql-net
       - springboot-mysql-net
 
 

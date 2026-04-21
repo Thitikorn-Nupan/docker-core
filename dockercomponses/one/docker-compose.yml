@@ -4,6 +4,7 @@
 ## Through Docker Compose in order to get to your services.
 ##
 version: '3'
+
 services:
   database: # service name
     container_name: mysql_database # *** define container name
@@ -25,30 +26,27 @@ services:
     networks:  # It's Importance. Create a docker network to communicate Spring boot application and MySQL database
       - springboot-mysql-net
 
+
   backend:
     container_name: springboot_app
     # build: . # if it's same path
     build:
       #  *** Importance before. build image
+      # way to accessing Dockerfile on folder *** Importance before. build image
       #  ../ mean you'll complies on dockercomponses folder
       #  ../.. mean you'll complies on spring-boot-on-docker-app-docker-componse folder
-      #  That's way you got error target/*.jar not found
-      #  ** Because you forget to set context path !!
+      #  That why you got error target/*.jar not found ** Because you forget to set context path !!
       #  relative to spring-boot-on-docker-app-docker-componse command running directory (../..) means this folder
       context: ../..
       dockerfile: dockerfiles/app/Dockerfile
-
     image: springboot:latest
     env_file: # *** import your env file
       - .env
-    # Note. when do this config
-    # this environment key didn't want too
-    # it'll complies the same .jar you provide
+    # Note. when do this config ** this environment key didn't want too it'll complies the same .jar you provide
 #    links: # to link containers over a network. When we link containers, Docker creates environment variables and adds containers to the known hosts list
 #      - database # call service db name on docker-compose main (That I extend) now I can't use service name database
     environment: # environmental variables for instead  Spring Boot application.prop file
-        # - spring.datasource.url=jdbc:mysql://database:3306/${MYSQLD_DATABASE}?allowPublicKeyRetrieval=true Or
-        # Note !! onside container we connect by port internal not expose port
+        # Note !! inside container we connect by port internal not expose port
         - spring.datasource.url=jdbc:mysql://database:3306/${MYSQLD_DATABASE}
         - spring.datasource.username=${MYSQLD_USERNAME}
         - spring.datasource.password=${MYSQLD_PASSWORD}

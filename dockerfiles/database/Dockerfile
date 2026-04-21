@@ -1,7 +1,5 @@
 #
-#
 # **** Dockerfile to create mysql image ****
-#
 #
 # Use the official MySQL image as a base
 # FROM have to the first line

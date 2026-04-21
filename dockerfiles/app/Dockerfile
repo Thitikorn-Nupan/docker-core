@@ -1,10 +1,8 @@
 #
-#
 # **** Dockerfile to create spring boot image ****
 #
-#
 ### Use official base image of Java Runtime (JDK version that you use)
-FROM openjdk:17
+FROM eclipse-temurin:17-jdk-alpine
 LABEL authors="ttknp"
 
 ### (Set folder on container) specific space to persist some data in your container.

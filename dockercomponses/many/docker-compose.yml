@@ -2,7 +2,7 @@
 ## Advance way ** extend another docker compose
 ##
 ## One docker compose have 2 service
-## backend (Spring Boot) and database (MySQL database image)
+## backend (Spring Boot) and database (MySQL database image) is service's name
 ## Networks it is importance for config database in spring boot
 version: '3'
 

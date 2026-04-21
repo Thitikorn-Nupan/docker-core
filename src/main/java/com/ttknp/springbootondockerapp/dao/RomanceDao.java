@@ -28,8 +28,9 @@ public class RomanceDao implements BooksService<Romance> {
         return repository.findById(rid).map(romance -> {
             log.info("RID :{} exits!!",rid);
             return romance;
-        }).orElseThrow(()-> {
-            throw new RuntimeException("RID : "+rid+" didn't exist!!");
+        }).orElseThrow(() -> {
+            logIdDidNotExist(rid);
+            return new RuntimeException(("RID : "+rid+" exits!!"));
         });
     }
 
@@ -45,8 +46,7 @@ public class RomanceDao implements BooksService<Romance> {
             romance.setPrice(obj.getPrice());
             return repository.save(romance);
         }).orElseThrow(() -> {
-            // *** response.put("deleted",null);
-            log.info("RID :{} didn't exit!!",rid);
+            logIdDidNotExist(rid);
             return new RuntimeException(("RID : "+rid+" exits!!"));
         });
     }
@@ -59,9 +59,12 @@ public class RomanceDao implements BooksService<Romance> {
             repository.delete(romance);
             return response;
         }).orElseThrow(() -> {
-            // response.put("deleted",null);
-            log.info("RID :{} didn't exit!!",rid);
+            logIdDidNotExist(rid);
             return new RuntimeException(("RID : "+rid+" didn't exits!!"));
         });
+    }
+
+    private void logIdDidNotExist(String rid) {
+        log.info("RID :{} didn't exit!!",rid);
     }
 }
